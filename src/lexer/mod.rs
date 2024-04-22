@@ -1,21 +1,2 @@
-pub enum Token {
-    ILLEGAL,
-    EOF,
-
-    IDENT,
-    INT,
-
-    ASSIGN,
-    PLUS,
-
-    COMMA,
-    SEMICOLON,
-
-    LPAREN,
-    RPAREN,
-    LBRACE,
-    RBRACE,
-
-    FUNCTION,
-    TAKE,
-}
+pub mod lexer;
+pub use lexer::Token;

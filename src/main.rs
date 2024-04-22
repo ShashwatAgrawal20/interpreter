@@ -1,5 +1,6 @@
 pub mod lexer;
 
 fn main() {
-    println!("Hello, world!");
+    let ex_token = lexer::Token::IDENT(String::from("20"));
+    println!("{}", ex_token);
 }
