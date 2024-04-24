@@ -1,5 +1,5 @@
+pub mod lexer;
 mod testies;
 pub mod token;
-pub use token::Token;
-pub mod lexer;
-pub use lexer::Lexer;
+
+pub use {lexer::Lexer, token::Token};

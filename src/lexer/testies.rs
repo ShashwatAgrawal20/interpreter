@@ -43,8 +43,8 @@ fn test_next_token() {
 
     let mut lexer = Lexer::new(input.into());
 
-    for expected_token in expected_tokens {
+    for i in 0..=input.len() {
         let received_token = lexer.next_token();
-        assert_eq!(expected_token, received_token);
+        assert_eq!(received_token, expected_tokens[i]);
     }
 }
