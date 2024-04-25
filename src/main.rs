@@ -1,5 +1,5 @@
-pub mod lexer;
+mod repl;
 
 fn main() {
-    println!("bullshit");
+    repl::main();
 }
