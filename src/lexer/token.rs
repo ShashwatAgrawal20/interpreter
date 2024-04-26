@@ -42,32 +42,8 @@ pub enum Token {
 impl Display for Token {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Token::ILLEGAL => write!(f, "ILLEGAL"),
-            Token::EOF => write!(f, "EOF"),
             Token::IDENT(value) | Token::INT(value) => write!(f, "{value}"),
-            Token::ASSIGN => write!(f, "ASSIGN"),
-            Token::PLUS => write!(f, "PLUS"),
-            Token::MINUS => write!(f, "MINUS"),
-            Token::EQUAL => write!(f, "EQUAL"),
-            Token::NOTEQUAL => write!(f, "NOTEQUAL"),
-            Token::LESSTHAN => write!(f, "LESSTHAN"),
-            Token::GREATERTHAN => write!(f, "GREATERTHAN"),
-            Token::BANG => write!(f, "BANG"),
-            Token::SLASH => write!(f, "SLASH"),
-            Token::ASTERISK => write!(f, "ASTERISK"),
-            Token::COMMA => write!(f, "COMMA"),
-            Token::SEMICOLON => write!(f, "SEMICOLON"),
-            Token::LPAREN => write!(f, "LPAREN"),
-            Token::RPAREN => write!(f, "RPAREN"),
-            Token::LSQUIRLY => write!(f, "LSQUIRLY"),
-            Token::RSQUIRLY => write!(f, "RSQUIRLY"),
-            Token::FUNCTION => write!(f, "FUNCTION"),
-            Token::LET => write!(f, "LET"),
-            Token::IF => write!(f, "IF"),
-            Token::RETURN => write!(f, "RETURN"),
-            Token::TRUE => write!(f, "TRUE"),
-            Token::FALSE => write!(f, "FALSE"),
-            Token::ELSE => write!(f, "ELSE"),
+            _ => write!(f, "{:?}", self),
         }
     }
 }
