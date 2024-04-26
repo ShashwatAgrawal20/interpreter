@@ -1,4 +1,6 @@
-use super::Token;
+mod testies;
+mod token;
+pub use token::Token;
 
 pub struct Lexer {
     // going full on u8 nuts, just don't wanna deal with those shitty utf8.

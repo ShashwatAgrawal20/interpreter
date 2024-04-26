@@ -1,3 +1,4 @@
+mod lexer;
 mod repl;
 
 fn main() {

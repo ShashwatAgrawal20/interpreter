@@ -1,4 +1,4 @@
-use interpreter::lexer::{Lexer, Token};
+use crate::lexer::{Lexer, Token};
 use std::io::Write;
 
 pub fn main() {
