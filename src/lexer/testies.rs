@@ -29,13 +29,21 @@ fn individual_token_test() {
     assert_eq!(Token::from("fn".to_string()), Token::FUNCTION);
     assert_eq!(Token::from("let".to_string()), Token::LET);
     assert_eq!(
-        Token::from("1234".to_string()),
-        Token::INT("1234".to_string())
-    );
-    assert_eq!(
         Token::from("my_var".to_string()),
         Token::IDENT("my_var".to_string())
     );
+    assert_eq!(Token::INT("123".to_string()), Token::INT("123".to_string()));
+    // we can't test INT with that Token::from() as it's not implementing the
+    // 'from' trait. The lexer's next_token() method handles numeric values
+    // efficiently, promptly returning Token::INT(value).
+
+    // Previously, when we used Token::from("123".to_string()), it was directly
+    // used in the test. However, the lexer implementation directly returns
+    // Token::INT for numeric values, a verification performed within the lexer
+    // itself. Additionally, when there was an actual identifier, it used to go
+    // through Token::from(value), requiring the token section to traverse a
+    // match statement to determine whether the values were digits. If they were,
+    // it returned Token::INT(value), otherwise Token::IDENT(value)
 }
 
 #[test]

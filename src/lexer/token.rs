@@ -83,13 +83,7 @@ impl From<String> for Token {
             "if" => Self::IF,
             "else" => Self::ELSE,
             "return" => Self::RETURN,
-            _ => {
-                if value.chars().all(|b| b.is_ascii_digit()) {
-                    Self::INT(value)
-                } else {
-                    Self::IDENT(value)
-                }
-            }
+            _ => Self::IDENT(value),
         }
     }
 }
