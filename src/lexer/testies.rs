@@ -171,7 +171,7 @@ fn full_code_tokenization() {
     let mut lexer = Lexer::new(input.into());
     for expected in expected_tokens {
         let received = lexer.next_token();
-        println!("expected {:?}, got {:?}", expected, received);
+        // println!("expected {:?}, got {:?}", expected, received);
         assert_eq!(received, expected);
     }
 }
