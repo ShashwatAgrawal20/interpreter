@@ -1,5 +1,4 @@
 mod testies;
-
 #[derive(Debug, PartialEq)]
 pub struct AST {
     pub statements: Vec<Statement>,
