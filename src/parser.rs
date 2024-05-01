@@ -27,7 +27,32 @@ impl Parser {
         self.peek_token = self.lexer.next_token();
     }
 
-    fn parse_program() -> AST {
+    fn parse_program(&mut self) -> AST {
+        let mut program_ast = AST {
+            statements: Vec::new(),
+        };
+
+        while self.cur_token != Token::EOF {
+            if let Some(statement) = self.parse_statement(self.cur_token.clone()) {
+                program_ast.statements.push(statement);
+            }
+            self.next_token();
+        }
+        program_ast
+    }
+
+    fn parse_statement(&mut self, curr_token: Token) -> Option<Statement> {
+        match curr_token {
+            Token::LET => self.parse_let_statement(),
+            Token::RETURN => self.parse_return_statement(),
+            _ => None,
+        }
+    }
+
+    fn parse_let_statement(&mut self) -> Option<Statement> {
+        todo!()
+    }
+    fn parse_return_statement(&mut self) -> Option<Statement> {
         todo!()
     }
 }
