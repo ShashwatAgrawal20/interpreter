@@ -21,7 +21,7 @@ fn test_shitty_ast() {
         Statement::Return(return_statement),
     ];
     let ast = AST { statements };
-    println!("{:#?}", ast);
+    // println!("{:#?}", ast);
     assert_eq!(
         ast,
         AST {

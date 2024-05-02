@@ -36,7 +36,7 @@ impl Parser {
             if let Some(statement) = self.parse_statement(self.curr_token.clone()) {
                 program_ast.statements.push(statement);
             } else {
-                panic!();
+                panic!("Error occured while generating the AST");
             }
             self.next_token();
         }
@@ -53,6 +53,7 @@ impl Parser {
 
     fn parse_let_statement(&mut self) -> Option<Statement> {
         self.next_token();
+        println!("{:?}", &self.curr_token);
         let name = if let Token::IDENT(name) = &self.curr_token {
             Identifier {
                 value: name.to_string(),

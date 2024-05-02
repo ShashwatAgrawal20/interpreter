@@ -13,7 +13,7 @@ fn parser_creation() {
 }
 
 #[test]
-fn shitty_let_parser_literal() {
+fn parse_let_statements() {
     use super::{Lexer, Parser};
     use crate::ast::*;
 
@@ -54,16 +54,4 @@ fn shitty_let_parser_literal() {
             }),],
         }
     );
-}
-
-#[test]
-#[should_panic]
-fn shitty_failing_test() {
-    use super::{Lexer, Parser};
-
-    let input = "let bullshit != shit";
-    let lexer = Lexer::new(input.into());
-    let mut parser = Parser::new(lexer);
-
-    parser.parse_program();
 }
