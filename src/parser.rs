@@ -5,7 +5,7 @@ mod testies;
 
 pub struct Parser {
     lexer: Lexer,
-    cur_token: Token,
+    curr_token: Token,
     peek_token: Token,
 }
 
@@ -13,7 +13,7 @@ impl Parser {
     pub fn new(lexer: Lexer) -> Parser {
         let mut parser = Parser {
             lexer,
-            cur_token: Token::EOF,
+            curr_token: Token::EOF,
             peek_token: Token::EOF,
         };
 
@@ -23,7 +23,7 @@ impl Parser {
     }
 
     fn next_token(&mut self) {
-        self.cur_token = self.peek_token.clone();
+        self.curr_token = self.peek_token.clone();
         self.peek_token = self.lexer.next_token();
     }
 
@@ -32,9 +32,11 @@ impl Parser {
             statements: Vec::new(),
         };
 
-        while self.cur_token != Token::EOF {
-            if let Some(statement) = self.parse_statement(self.cur_token.clone()) {
+        while self.curr_token != Token::EOF {
+            if let Some(statement) = self.parse_statement(self.curr_token.clone()) {
                 program_ast.statements.push(statement);
+            } else {
+                panic!();
             }
             self.next_token();
         }
@@ -50,8 +52,37 @@ impl Parser {
     }
 
     fn parse_let_statement(&mut self) -> Option<Statement> {
-        todo!()
+        self.next_token();
+        let name = if let Token::IDENT(name) = &self.curr_token {
+            Identifier {
+                value: name.to_string(),
+            }
+        } else {
+            eprintln!("expected Identifier, got {:?}", &self.curr_token);
+            return None;
+        };
+
+        self.next_token();
+        if self.curr_token != Token::ASSIGN {
+            eprintln!("expected {:?}, got {:?}", Token::ASSIGN, self.curr_token);
+            return None;
+        }
+
+        // shitty expression part starts here
+        self.next_token();
+        let value = match &self.curr_token {
+            Token::INT(value) => Expression::Literal(Literal {
+                value: value.to_string(),
+            }),
+            Token::IDENT(name) => Expression::Identifier(Identifier {
+                value: name.to_string(),
+            }),
+            _ => return None,
+        };
+
+        Some(Statement::Let(LetStatement { name, value }))
     }
+
     fn parse_return_statement(&mut self) -> Option<Statement> {
         todo!()
     }
