@@ -55,3 +55,74 @@ fn parse_let_statements() {
         }
     );
 }
+
+#[test]
+fn parse_return_statement() {
+    use super::{Lexer, Parser};
+    use crate::ast::*;
+
+    let input = "return bullshit;";
+    let lexer = Lexer::new(input.into());
+    let mut parser = Parser::new(lexer);
+
+    let program_ast = parser.parse_program();
+    assert_eq!(
+        program_ast,
+        AST {
+            statements: vec![Statement::Return(ReturnStatement {
+                value: Expression::Identifier(Identifier {
+                    value: "bullshit".to_string()
+                }),
+            }),],
+        }
+    );
+    // println!("{:#?}", program_ast);
+    let input = "return 69;";
+    let lexer = Lexer::new(input.into());
+    let mut parser = Parser::new(lexer);
+
+    let program_ast = parser.parse_program();
+    assert_eq!(
+        program_ast,
+        AST {
+            statements: vec![Statement::Return(ReturnStatement {
+                value: Expression::Literal(Literal {
+                    value: "69".to_string()
+                }),
+            }),],
+        }
+    );
+}
+
+#[test]
+fn parse_let_return_merge() {
+    use super::{Lexer, Parser};
+    use crate::ast::*;
+
+    let input = "let bullshit = 69; return bullshit;";
+    let lexer = Lexer::new(input.into());
+    let mut parser = Parser::new(lexer);
+
+    let program_ast = parser.parse_program();
+    // println!("{:#?}", program_ast);
+    assert_eq!(
+        program_ast,
+        AST {
+            statements: vec![
+                Statement::Let(LetStatement {
+                    name: Identifier {
+                        value: "bullshit".to_string()
+                    },
+                    value: Expression::Literal(Literal {
+                        value: "69".to_string()
+                    }),
+                }),
+                Statement::Return(ReturnStatement {
+                    value: Expression::Identifier(Identifier {
+                        value: "bullshit".to_string(),
+                    }),
+                }),
+            ],
+        }
+    );
+}
