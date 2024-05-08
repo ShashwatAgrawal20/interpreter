@@ -33,7 +33,7 @@ impl Parser {
         };
 
         while self.curr_token != Token::EOF {
-            if let Some(statement) = self.parse_statement(self.curr_token.clone()) {
+            if let Some(statement) = self.parse_statement() {
                 program_ast.statements.push(statement);
             }
             self.next_token();
@@ -41,8 +41,8 @@ impl Parser {
         program_ast
     }
 
-    fn parse_statement(&mut self, curr_token: Token) -> Option<Statement> {
-        match curr_token {
+    fn parse_statement(&mut self) -> Option<Statement> {
+        match &self.curr_token {
             Token::LET => self.parse_let_statement(),
             Token::RETURN => self.parse_return_statement(),
             _ => None,
