@@ -7,6 +7,7 @@ pub struct Parser {
     lexer: Lexer,
     curr_token: Token,
     peek_token: Token,
+    errors: Vec<String>,
 }
 
 impl Parser {
@@ -15,6 +16,7 @@ impl Parser {
             lexer,
             curr_token: Token::EOF,
             peek_token: Token::EOF,
+            errors: vec![],
         };
 
         parser.next_token();
@@ -57,13 +59,15 @@ impl Parser {
                 value: name.to_string(),
             }
         } else {
-            eprintln!("expected Identifier, got {:?}", &self.curr_token);
+            self.errors
+                .push(format!("expected IDENT, got {:?}", self.curr_token));
             return None;
         };
 
         self.next_token();
         if self.curr_token != Token::ASSIGN {
-            eprintln!("expected {:?}, got {:?}", Token::ASSIGN, self.curr_token);
+            self.errors
+                .push(format!("expected ASSIGN, got {:?}", self.curr_token));
             return None;
         }
 
@@ -76,8 +80,18 @@ impl Parser {
             Token::IDENT(name) => Expression::Identifier(Identifier {
                 value: name.to_string(),
             }),
-            _ => return None,
+            _ => {
+                self.errors
+                    .push(format!("expected INT|IDENT, got {:?}", self.curr_token));
+                return None;
+            }
         };
+
+        if self.peek_token != Token::SEMICOLON {
+            self.errors
+                .push(format!("expected SEMICOLON, got {:?}", self.peek_token));
+            return None;
+        }
 
         Some(Statement::Let(LetStatement { name, value }))
     }
@@ -91,8 +105,18 @@ impl Parser {
             Token::IDENT(value) => Expression::Identifier(Identifier {
                 value: value.to_string(),
             }),
-            _ => return None,
+            _ => {
+                self.errors
+                    .push(format!("expected INT|IDENT, got {:?}", self.curr_token));
+                return None;
+            }
         };
+
+        if self.peek_token != Token::SEMICOLON {
+            self.errors
+                .push(format!("expected SEMICOLON, got {:?}", self.peek_token));
+            return None;
+        }
         Some(Statement::Return(ReturnStatement { value }))
     }
 }

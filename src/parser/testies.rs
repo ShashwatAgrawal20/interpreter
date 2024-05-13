@@ -2,7 +2,7 @@
 fn parser_creation() {
     use super::{Lexer, Parser};
 
-    let input = "let bullshit = 69";
+    let input = "let bullshit = 69;";
     let lexer = Lexer::new(input.into());
     let parser = Parser::new(lexer);
     assert_eq!(parser.curr_token, super::Token::LET);
@@ -13,11 +13,23 @@ fn parser_creation() {
 }
 
 #[test]
+fn parse_let_with_errors() {
+    use super::{Lexer, Parser};
+    let input = "let bullshit = 69";
+    let lexer = Lexer::new(input.into());
+    let mut parser = Parser::new(lexer);
+
+    let _program_ast = parser.parse_program();
+    // println!("{:?}", parser.errors);
+    assert_eq!(parser.errors.len(), 1)
+}
+
+#[test]
 fn parse_let_statements() {
     use super::{Lexer, Parser};
     use crate::ast::*;
 
-    let input = "let bullshit = 69";
+    let input = "let bullshit = 69;";
     let lexer = Lexer::new(input.into());
     let mut parser = Parser::new(lexer);
 
@@ -36,7 +48,7 @@ fn parse_let_statements() {
         }
     );
     // println!("{:#?}", program_ast);
-    let input = "let bullshit = shit";
+    let input = "let bullshit = shit;";
     let lexer = Lexer::new(input.into());
     let mut parser = Parser::new(lexer);
 
