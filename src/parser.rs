@@ -24,6 +24,16 @@ impl Parser {
         parser
     }
 
+    fn has_semicolon(&mut self) -> bool {
+        if self.peek_token != Token::SEMICOLON {
+            self.errors
+                .push(format!("expected SEMICOLON, got {:?}", self.peek_token));
+            false
+        } else {
+            true
+        }
+    }
+
     fn next_token(&mut self) {
         self.curr_token = self.peek_token.clone();
         self.peek_token = self.lexer.next_token();
@@ -87,11 +97,9 @@ impl Parser {
             }
         };
 
-        if self.peek_token != Token::SEMICOLON {
-            self.errors
-                .push(format!("expected SEMICOLON, got {:?}", self.peek_token));
+        if !self.has_semicolon() {
             return None;
-        }
+        };
 
         Some(Statement::Let(LetStatement { name, value }))
     }
@@ -112,11 +120,10 @@ impl Parser {
             }
         };
 
-        if self.peek_token != Token::SEMICOLON {
-            self.errors
-                .push(format!("expected SEMICOLON, got {:?}", self.peek_token));
+        if !self.has_semicolon() {
             return None;
-        }
+        };
+
         Some(Statement::Return(ReturnStatement { value }))
     }
 }
