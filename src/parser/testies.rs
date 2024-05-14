@@ -13,15 +13,15 @@ fn parser_creation() {
 }
 
 #[test]
-fn parse_let_with_errors() {
+fn parse_check_errors() {
     use super::{Lexer, Parser};
-    let input = "let bullshit = 69";
+    let input = "let x 5; let = 10; let 838383;";
     let lexer = Lexer::new(input.into());
     let mut parser = Parser::new(lexer);
 
     let _program_ast = parser.parse_program();
     // println!("{:?}", parser.errors);
-    assert_eq!(parser.errors.len(), 1)
+    assert_eq!(parser.errors.len(), 3)
 }
 
 #[test]

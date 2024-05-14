@@ -7,7 +7,7 @@ pub struct Parser {
     lexer: Lexer,
     curr_token: Token,
     peek_token: Token,
-    errors: Vec<String>,
+    pub errors: Vec<String>,
 }
 
 impl Parser {
@@ -39,7 +39,7 @@ impl Parser {
         self.peek_token = self.lexer.next_token();
     }
 
-    fn parse_program(&mut self) -> AST {
+    pub fn parse_program(&mut self) -> AST {
         let mut program_ast = AST {
             statements: Vec::new(),
         };
